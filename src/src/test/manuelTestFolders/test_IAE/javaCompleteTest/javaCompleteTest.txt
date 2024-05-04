@@ -1,0 +1,5 @@
+studentId='20160602169', output='Compile Error', score=0
+studentId='20180602016', output='Compile Error', score=0
+studentId='20190602026', output='Compile Error', score=0
+studentId='20200602004', output='Compile Error', score=0
+studentId='20210602001', output='Compile Error', score=0
