@@ -7,8 +7,8 @@ import java.util.Arrays;
 
 public class JavaCompiler {
 
-    public static void main(String[] args) {
-        String targetFolderPath = "C:\\Users\\Forkis\\Desktop\\test_IAE\\java code for sorting\\sortArgs.java";
+    public static void main(String[] args) { //TEST
+        String targetFolderPath = "./src/src/test/manuelTestFolders/test_IAE/java code for sorting/sortArgs.java";
         String arguments = "resink transversomedial pharyngopathy postmineral myelosyphilis silverer evincement phrygium punnigram imminution environmental sleepify nope wauken indignance knotwort apocodeine escortee dogwatch eaglewood unbrotherliness mulse dermobranchiata typhic poststertorous indevout anatomicopathologic unimpenetrable hoggy urrhodin Dioecia unchapter nonumbilicate zwitterionic apportionable ferulic statefulness pharyngotonsillitis Mimulus recce mutinously reboant marshwort lupoid chromatophilic lauder nirles esthesiometer semisocial unbeing kangaroo takosis inconvertibility anesthetist rumorproof thoracoscopy euphorbium bizet song dolichocephali platemaker vesicupapular electroforming dilatingly meethelp loincloth avowably counterindicate treacliness Epigonus airmark polarography precomposition lemography Apinage Taal logology probeer randomization poditic individualize castigate Biloculina overscrub koolah weetless erased layery discontinuee anaphylatoxin unwounded personalism howitzer hexahydroxy koku reamer tonguiness microgametocyte baba ludefisk novelwright swinehull Odonata indefinable faineance nidologist supracargo beriberic betso archheart snary Viminal Pygopodidae acetylenediurein asphalt preimpress fountainlet bejel unpictorially heliophyte chimopeelagic warison antivaccinist overtwine preremove nerval bufonite eradicator turtling winrace psychographic impalpably amygdalase Octogynia brimming grist casave brazilein afluking meliceris portative unsteck Madelon barramunda optotechnics";
         JavaCompiler c = new JavaCompiler();
         try {
@@ -35,11 +35,14 @@ public class JavaCompiler {
     public static boolean compileJavaFile(String sourceFilePath) {
         try {
             //get parent dir
-            String sourceDir = new File(sourceFilePath).getParent();
+            String studentFolder = new File(sourceFilePath).getParent();
+
+            //convert sourceFilePath to an absolute path
+            String absSourceFilePath = new File(sourceFilePath).getAbsolutePath();
 
             //execute the compilation command
-            ProcessBuilder processBuilder = new ProcessBuilder("javac", sourceFilePath);
-            processBuilder.directory(new File(sourceDir));
+            ProcessBuilder processBuilder = new ProcessBuilder("javac", absSourceFilePath);
+            processBuilder.directory(new File(studentFolder));
             Process process = processBuilder.start();
 
             //wait for the process to finish

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class FileOperations {
 
-    private static final String CONFIG_FOLDER_PATH = "C:\\Users\\Forkis\\Desktop\\test_IAE\\configuration"; //folder path of configurations folder.
+    private static final String CONFIG_FOLDER_PATH = "./src/src/test/manuelTestFolders/test_IAE/configuration"; //folder path of configurations folder.
 
     public List<String> listConfigurationNames() {
         List<String> configurationNames = new ArrayList<>();

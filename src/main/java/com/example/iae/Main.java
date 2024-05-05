@@ -2,15 +2,14 @@ package com.example.iae;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String projectDir = "C:\\Users\\Forkis\\Desktop\\test_IAE\\javaCompleteTest";
-        //String projectDir = "./src/src/test/manuelTestFolders/test_IAE/javaCompleteTest";
+
+        String projectDir = "./src/src/test/manuelTestFolders/test_IAE/javaCompleteTest";
         //configuration
-        Configuration configuration = new Configuration("javaAllTest", "java", "5", projectDir, "\"C:\\Users\\Forkis\\Desktop\\test_IAE\\javaCompleteTest\\correct_result.txt\"", 2);
+        Configuration configuration = new Configuration("javaAllTest", "java", "5", projectDir, "./src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/correct_result.txt", 2);
         Compiler compiler = new Compiler();
         compiler.runAttempt(configuration);
 
