@@ -117,8 +117,8 @@ public class Configuration {
 
     public static void main(String[] args) { //test
         Configuration c = new Configuration("conf1", "java", "abc cde efd abb", "targetfolderpath", "outputpath",5);
-        c.saveConfiguration("C:\\Users\\Forkis\\Desktop\\test_IAE\\configuration");
-        Configuration c2 = new Configuration("C:/Users/Forkis/Desktop/test_IAE/configuration/conf1.json");
+        c.saveConfiguration("./src/src/test/manuelTestFolders/test_IAE/configuration");
+        Configuration c2 = new Configuration("./src/src/test/manuelTestFolders/test_IAE/configuration/conf1.json");
         System.out.println(c2.toString());
         FileOperations f = new FileOperations();
         List<String> names = f.listConfigurationNames();

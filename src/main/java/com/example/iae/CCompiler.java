@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class CCompiler {
 
     public static void main(String[] args) {
-        String sourceFilePath = "\"C:\\Users\\Forkis\\Desktop\\test_IAE\\c code for sorting\\sortArgs.c\""; //replace with the path to your C file
+        String sourceFilePath = "./src/src/test/manuelTestFolders/test_IAE/c code for sorting/sortArgs.c"; //replace with the path to your C file
         String arguments = "abc cde aab dfg zzz";
 
         //compile the C file
@@ -24,8 +24,10 @@ public class CCompiler {
 
     public static boolean compileCFile(String sourceFilePath) {
         try {
+            //convert sourceFilePath to an absolute path
+            String absSourceFilePath = new File(sourceFilePath).getAbsolutePath();
             //execute the compilation command
-            ProcessBuilder processBuilder = new ProcessBuilder("gcc", sourceFilePath, "-o", sourceFilePath.replace(".c", ".exe"));
+            ProcessBuilder processBuilder = new ProcessBuilder("gcc", absSourceFilePath, "-o", absSourceFilePath.replace(".c", ".exe"));
             processBuilder.directory(new File(System.getProperty("user.dir"))); // Set the working directory
             Process process = processBuilder.start();
 
