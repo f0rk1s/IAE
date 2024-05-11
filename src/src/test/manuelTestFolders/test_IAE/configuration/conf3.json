@@ -1,0 +1,1 @@
+{"name":"conf3","compileCommand":"javac FactorialCalculator.java","runCommand":"java FactorialCalculator 5","timeLimit":2}
