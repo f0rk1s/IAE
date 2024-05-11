@@ -15,6 +15,8 @@ public class IntegratedAssignmentEnvApp extends Application {
         stage.setTitle("Integrated Assignment Environment");
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
+        stage.show();
     }
 
     public static void main(String[] args) {

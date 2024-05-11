@@ -35,6 +35,9 @@ public class Configuration {
         }
     }
 
+    public Configuration(String language, String command) {
+    } //THIS IS LIKELY TO BE DELETED IN FUTURE??
+
     public String getName() {
         return name;
     }
