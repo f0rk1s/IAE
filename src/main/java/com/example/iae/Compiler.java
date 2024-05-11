@@ -97,8 +97,6 @@ public class Compiler {
 
             // Stop the interrupter thread
             interrupterThread.interrupt();
-
-
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

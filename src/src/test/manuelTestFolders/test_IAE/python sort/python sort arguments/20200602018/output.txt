@@ -1,0 +1,1 @@
+Sorted arguments: ['apple', 'banana', 'cherry']

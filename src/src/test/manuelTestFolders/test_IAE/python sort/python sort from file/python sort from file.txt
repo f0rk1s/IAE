@@ -1,0 +1,1 @@
+studentId='20200602018', output='Correct', score=100
