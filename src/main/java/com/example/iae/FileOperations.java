@@ -6,8 +6,8 @@ import java.util.List;
 
 public class FileOperations {
 
-    private static final String CONFIG_FOLDER_PATH = "./src/src/test/manuelTestFolders/test_IAE/configuration"; //folder path of configurations folder.
-
+    public static final String CONFIG_FOLDER_PATH = "./src/src/test/manuelTestFolders/test_IAE/configuration"; //folder path of configurations folder.
+    public static final String PROJECT_FOLDER_PATH = "./src/src/test/manuelTestFolders/test_IAE/project";
     public List<String> listConfigurationNames() {
         List<String> configurationNames = new ArrayList<>();
 
@@ -27,6 +27,26 @@ public class FileOperations {
 
         return configurationNames;
     }
+
+    public List<String> listProjectNames() {
+        List<String> projectNames = new ArrayList<>();
+
+        //get the directory for configurations
+        File projectFolder = new File(PROJECT_FOLDER_PATH);
+
+
+        if (projectFolder.exists() && projectFolder.isDirectory()) { //TODO : both  boolean exp. are redundant after setting up the file structure
+            File[] files = projectFolder.listFiles();
+
+            for (File file : files) {
+                if (file.getName().endsWith(".json")) {
+                    projectNames.add(file.getName());
+                }
+            }
+        }
+        return projectNames;
+    }
+
     public boolean areFilesEqual(String filePath1, String filePath2) {
         try (BufferedReader reader1 = new BufferedReader(new FileReader(filePath1));
              BufferedReader reader2 = new BufferedReader(new FileReader(filePath2))) {
@@ -49,7 +69,7 @@ public class FileOperations {
         }
     }
 
-    public void createReportFile(ScoreDocument scoreDocument, String directoryPath) { //not tested
+    public void createReportFile(ScoreDocument scoreDocument, String directoryPath) { //tested
 
         File dir = new File(directoryPath);
         String projectName = dir.getName();

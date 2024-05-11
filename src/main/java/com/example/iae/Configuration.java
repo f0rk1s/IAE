@@ -8,33 +8,27 @@ import java.util.List;
 public class Configuration {
 
     private String name; //will be used as a filename "name.json"
-    private String language;
-    private String argument;
-    private String targetFolderPath;
-    private String intendedOutputFilePath;
+    private String compileCommand;
+    private String runCommand;
     private int timeLimit;
 
     public Configuration() { //is used by ObjectMapper
     }
-    public Configuration(String name, String language, String argument, String targetFolderPath, String intendedOutputFilePath, int timeLimit) {
+    public Configuration(String name, String compileCommand, String runCommand, int timeLimit) {
         this.name = name;
-        this.language = language;
-        this.argument = argument;
-        this.targetFolderPath = targetFolderPath;
-        this.intendedOutputFilePath = intendedOutputFilePath;
+        this.compileCommand = compileCommand;
+        this.runCommand = runCommand;
         this.timeLimit = timeLimit;
     }
 
-    public Configuration(String filePath) { //load configuration from .json file
+    public Configuration(String confName) { //load configuration from .json file
+        String filePath = FileOperations.CONFIG_FOLDER_PATH + File.separator + confName + ".json";
         ObjectMapper mapper = new ObjectMapper();
         try {
             Configuration config = mapper.readValue(new File(filePath), Configuration.class);
-
             this.name = config.name;
-            this.language = config.language;
-            this.argument = config.argument;
-            this.targetFolderPath = config.targetFolderPath;
-            this.intendedOutputFilePath = config.intendedOutputFilePath;
+            this.compileCommand = config.compileCommand;
+            this.runCommand = config.runCommand;
             this.timeLimit = config.timeLimit;
         } catch (IOException e) {
             e.printStackTrace();
@@ -49,38 +43,21 @@ public class Configuration {
         this.name = name;
     }
 
-    public String getLanguage() {
-        return language;
+    public String getCompileCommand() {
+        return compileCommand;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setCompileCommand(String compileCommand) {
+        this.compileCommand = compileCommand;
     }
 
-    public String getArgument() {
-        return argument;
+    public String getRunCommand() {
+        return runCommand;
     }
 
-    public void setArgument(String argument) {
-        this.argument = argument;
+    public void setRunCommand(String runCommand) {
+        this.runCommand = runCommand;
     }
-
-    public String getTargetFolderPath() {
-        return targetFolderPath;
-    }
-
-    public void setTargetFolderPath(String targetFolderPath) {
-        this.targetFolderPath = targetFolderPath;
-    }
-
-    public String getIntendedOutputFilePath() {
-        return intendedOutputFilePath;
-    }
-
-    public void setIntendedOutputFilePath(String intendedOutputFilePath) {
-        this.intendedOutputFilePath = intendedOutputFilePath;
-    }
-
 
     public int getTimeLimit() {
         return timeLimit;
@@ -91,9 +68,9 @@ public class Configuration {
     }
 
 
-    public void saveConfiguration(String folderPath) {
+    public void saveConfiguration() {
         String fileName = this.getName() + ".json";
-        String filePath = folderPath + File.separator + fileName;
+        String filePath = FileOperations.CONFIG_FOLDER_PATH + File.separator + fileName;
 
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -107,19 +84,17 @@ public class Configuration {
     public String toString() {
         return "Configuration{" +
                 "name='" + name + '\'' +
-                ", language='" + language + '\'' +
-                ", argument='" + argument + '\'' +
-                ", targetFolderPath='" + targetFolderPath + '\'' +
-                ", intendedOutputFilePath='" + intendedOutputFilePath + '\'' +
+                ", compileCommand='" + compileCommand + '\'' +
+                ", runCommand='" + runCommand + '\'' +
                 ", timeLimit=" + timeLimit +
                 '}';
     }
 
-    public static void main(String[] args) { //test
-        Configuration c = new Configuration("conf1", "java", "abc cde efd abb", "targetfolderpath", "outputpath",5);
-        c.saveConfiguration("./src/src/test/manuelTestFolders/test_IAE/configuration");
-        Configuration c2 = new Configuration("./src/src/test/manuelTestFolders/test_IAE/configuration/conf1.json");
-        System.out.println(c2.toString());
+    public static void main(String[] args) { //conf class works
+        Configuration c = new Configuration("conf3", "javac FactorialCalculator.java", "java FactorialCalculator 5", 2);
+        c.saveConfiguration();
+        Configuration c3 = new Configuration("conf3");
+        System.out.println(c3.toString());
         FileOperations f = new FileOperations();
         List<String> names = f.listConfigurationNames();
 
