@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="618.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iae.HelloController">
+<AnchorPane prefHeight="618.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iae.MainPageController">
    <children>
       <Button id="addFolderButton" layoutX="14.0" layoutY="81.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="106.0" text="Add Folder" />
       <TextArea layoutX="14.0" layoutY="150.0" prefHeight="181.0" prefWidth="287.0" />
