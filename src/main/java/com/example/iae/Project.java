@@ -68,7 +68,7 @@ public class Project {
     }
 
     public static void main(String[] args) {
-        Project p = new Project("project1", "somepath/comolokko");
+        Project p = new Project("project1", "somepath/projectName");
         p.saveProject();
         Project p2 = new Project("project1");
         System.out.println(p2.toString());

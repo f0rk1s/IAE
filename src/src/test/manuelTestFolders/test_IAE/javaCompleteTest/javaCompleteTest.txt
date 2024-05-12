@@ -1,5 +1,0 @@
-studentId='20160602169', output='Correct', score=100
-studentId='20180602016', output='Compile Error', score=0
-studentId='20190602026', output='Compile Error', score=0
-studentId='20200602004', output='Runtime Error', score=10
-studentId='20210602001', output='Wrong', score=25

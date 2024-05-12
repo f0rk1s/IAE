@@ -2,10 +2,10 @@ package com.example.iae;
 
 import java.io.IOException;
 
-public class Main {
+public class Test {
 
     public static void main(String[] args) throws IOException {
-        pythonSortFile();
+        completeJavaTest();
     }
 
     static void completeJavaTest() throws IOException { //passed

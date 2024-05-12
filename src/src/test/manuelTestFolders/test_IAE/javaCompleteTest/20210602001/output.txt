@@ -1,2 +1,0 @@
-Factorial of 5 is: 120
-im gonna make the output wrong

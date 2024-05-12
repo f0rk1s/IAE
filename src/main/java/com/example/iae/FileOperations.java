@@ -6,8 +6,8 @@ import java.util.List;
 
 public class FileOperations {
 
-    public static final String CONFIG_FOLDER_PATH = "./src/src/test/manuelTestFolders/test_IAE/configuration"; //folder path of configurations folder.
-    public static final String PROJECT_FOLDER_PATH = "./src/src/test/manuelTestFolders/test_IAE/project";
+    public static final String CONFIG_FOLDER_PATH = "./src/src/test/manuelTestFolders/test_IAE/configurations"; //folder path of configurations folder.
+    public static final String PROJECT_FOLDER_PATH = "./src/src/test/manuelTestFolders/test_IAE/projects";
     public List<String> listConfigurationNames() {
         List<String> configurationNames = new ArrayList<>();
 
