@@ -3,6 +3,9 @@ package com.example.iae;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
@@ -13,6 +16,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
+import static com.example.iae.Main.completeJavaTest;
 
 public class MainPageController {
     @FXML
@@ -73,13 +78,14 @@ public class MainPageController {
         addFolderFunc();
         compiler = new Compiler();
         runButtonFunc();
+        configSetButton.setOnAction(event -> openConfigSettings());
 
         System.out.println("initialize() method called");
         stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         outcomeCol.setCellValueFactory(new PropertyValueFactory<>("result"));
         scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
         scoreTable.refresh();
-        readValuesFromFile("C:\\Users\\VICTUS\\IdeaProjects\\IAE\\src\\src\\test\\manuelTestFolders\\test_IAE\\javaCompleteTest\\javaCompleteTest.txt");
+        readValuesFromFile("src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/javaCompleteTest.txt");
 
         scoreTable.setRowFactory(tv -> new TableRow<ScoreDocument.StudentResult>() {
             @Override
@@ -98,6 +104,19 @@ public class MainPageController {
                 }
             }
         });
+    }
+
+    @FXML
+    private void openConfigSettings() { //NOT WORKING WHEN I CLICK ON CONFIGURATION SETTINGS - WHY?
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("config-page.fxml"));
+                Parent root = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 
         @FXML
@@ -135,32 +154,42 @@ public class MainPageController {
     }
 
     @FXML
-    private void runButtonFunc() { /**THERE IS AN ISSUE WITH CONFIGURATION INITIALIZATION
-                                    this method is most likely to change!!! **/
-        String language;
-        if (onlyRun.isSelected()) {
-            language = "java";
-        } else if (compNrun.isSelected()) {
-            language = "c";
-        } else {
+    private void runButtonFunc() {
+        String compileCommand = compCmdText.getText().trim();
+        String runCommand = runCmdText.getText().trim();
+
+        if (compileCommand.isEmpty() || runCommand.isEmpty()) {
+
+            System.out.println("To Proceed with running the program,\n fill in the required compile/run fields!");
             return;
         }
-
-        String command;
-        if (language.equals("java")) {
-            command = runCmdText.getText();
-        } else {
-            command = compCmdText.getText();
-        }
-
-        if (command.isEmpty()) {
-            return;
-        }
-
-        Configuration config = new Configuration(language, command);
 
         try {
-            compiler.runAttempt(config);
+            String projectDir = "./src/src/test/manuelTestFolders/test_IAE/javaCompleteTest";
+
+            // Unzip
+            ZipCommands.extractAllZips(projectDir, projectDir);
+
+            // Configuration
+            Configuration configuration = new Configuration("javaComplete", compileCommand, runCommand, 5); // Assuming time limit is 5
+
+            // Project
+            Project project = new Project("factorial assignment", projectDir);
+
+            // Compile and run
+            Compiler compiler = new Compiler();
+            compiler.runForAllStudentFiles(project, configuration);
+
+
+            readValuesFromFile("src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/javaCompleteTest.txt");
+            scoreTable.refresh();
+
+            ScoreDocument scoreDocument = new ScoreDocument();
+            scoreDocument.fillList(projectDir);
+
+            FileOperations fileOperations = new FileOperations();
+            fileOperations.createReportFile(scoreDocument, projectDir);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
