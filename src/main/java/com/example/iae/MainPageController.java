@@ -1,7 +1,10 @@
 package com.example.iae;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -38,12 +41,31 @@ public class MainPageController {
     private TextField runCmdText;
 
     @FXML
-    private TableColumn<?, ?> outcomeCol;
+    private TableView<ScoreDocument.StudentResult> scoreTable = new TableView<ScoreDocument.StudentResult>();;
+
     @FXML
-    private TableColumn<?, ?> scoreCol;
+    private TableColumn<ScoreDocument.StudentResult, String> outcomeCol;
     @FXML
-    private TableColumn<?, ?> stdIDcol;
+    private TableColumn<ScoreDocument.StudentResult, Integer> scoreCol;
+    @FXML
+    private TableColumn<ScoreDocument.StudentResult, String> stdIDcol;
     private Compiler compiler;
+
+    private void readValuesFromFile(String filePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                String studentId = parts[0].split("=")[1].replace("'", "").trim();
+                String result = parts[1].split("=")[1].replace("'", "").trim();
+                int score = Integer.parseInt(parts[2].split("=")[1].trim());
+                scoreTable.getItems().add(new ScoreDocument.StudentResult(studentId, result, score));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     public void initialize() {
@@ -51,9 +73,34 @@ public class MainPageController {
         addFolderFunc();
         compiler = new Compiler();
         runButtonFunc();
+
+        System.out.println("initialize() method called");
+        stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
+        outcomeCol.setCellValueFactory(new PropertyValueFactory<>("result"));
+        scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
+        scoreTable.refresh();
+        readValuesFromFile("C:\\Users\\VICTUS\\IdeaProjects\\IAE\\src\\src\\test\\manuelTestFolders\\test_IAE\\javaCompleteTest\\javaCompleteTest.txt");
+
+        scoreTable.setRowFactory(tv -> new TableRow<ScoreDocument.StudentResult>() {
+            @Override
+            protected void updateItem(ScoreDocument.StudentResult item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setStyle("");
+                } else {
+                    if (item.getScore() == 100) {
+                        setStyle("-fx-background-color: lightgreen;");
+                    } else if (item.getScore() == 0) {
+                        setStyle("-fx-background-color: red;");
+                    } else {
+                        setStyle("-fx-background-color: yellow;");
+                    }
+                }
+            }
+        });
     }
 
-    @FXML
+        @FXML
     private void addFolderFunc() {
         addFolderButton.setOnAction(event -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -117,6 +164,14 @@ public class MainPageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void fillTable() {
+        stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
+        outcomeCol.setCellValueFactory(new PropertyValueFactory<>("result"));
+        scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
+
+        //scoreTable.refresh(); // Refresh the table view
     }
 
     @FXML

@@ -56,7 +56,7 @@ public class ScoreDocument {
         }
     }
 
-    class StudentResult {
+public static class StudentResult {
         private String studentId;
         private String result;
         private int score;
