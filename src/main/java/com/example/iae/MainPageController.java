@@ -3,6 +3,9 @@ package com.example.iae;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
@@ -73,13 +76,14 @@ public class MainPageController {
         addFolderFunc();
         compiler = new Compiler();
         runButtonFunc();
+        configSetButton.setOnAction(event -> openConfigSettings());
 
         System.out.println("initialize() method called");
         stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         outcomeCol.setCellValueFactory(new PropertyValueFactory<>("result"));
         scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
         scoreTable.refresh();
-        readValuesFromFile("C:\\Users\\VICTUS\\IdeaProjects\\IAE\\src\\src\\test\\manuelTestFolders\\test_IAE\\javaCompleteTest\\javaCompleteTest.txt");
+        readValuesFromFile("src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/javaCompleteTest.txt");
 
         scoreTable.setRowFactory(tv -> new TableRow<ScoreDocument.StudentResult>() {
             @Override
@@ -98,6 +102,19 @@ public class MainPageController {
                 }
             }
         });
+    }
+
+    @FXML
+    private void openConfigSettings() { //NOT WORKING WHEN I CLICK ON CONFIGURATION SETTINGS - WHY?
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("config-page.fxml"));
+                Parent root = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 
         @FXML
@@ -135,36 +152,43 @@ public class MainPageController {
     }
 
     @FXML
-    private void runButtonFunc() { /**THERE IS AN ISSUE WITH CONFIGURATION INITIALIZATION
-                                    this method is most likely to change!!! **/
-        String language;
-        if (onlyRun.isSelected()) {
-            language = "java";
-        } else if (compNrun.isSelected()) {
-            language = "c";
+    private void runButtonFunc() { /** THIS METHOD SHOULD SUCCESSFULLY COMPILE AND RUN THE STUDENT FILE.
+                                      I used a certain factorial java file to test,
+                                      but when I run the commands, it does not compile and run,
+                                      actually when I hit the run button nothing happens... **/
+
+        String sourceFilePath = "src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/20160602169/FactorialCalculator.java";
+        String compileCommand;
+        String runCommand;
+
+        if (sourceFilePath.endsWith(".java")) {
+            compileCommand = "javac " + sourceFilePath;
+            runCommand = "java " + sourceFilePath.substring(sourceFilePath.lastIndexOf("/") + 1, sourceFilePath.lastIndexOf("."));
+        } else if (sourceFilePath.endsWith(".c")) {
+            compileCommand = "gcc " + sourceFilePath + " -o " + sourceFilePath.substring(0, sourceFilePath.lastIndexOf("."));
+            runCommand = sourceFilePath.substring(0, sourceFilePath.lastIndexOf("."));
         } else {
+            System.out.println("File not supported!!");
             return;
         }
 
-        String command;
-        if (language.equals("java")) {
-            command = runCmdText.getText();
-        } else {
-            command = compCmdText.getText();
-        }
+        String parentDirectory = new File(sourceFilePath).getParent();
 
-        if (command.isEmpty()) {
-            return;
-        }
+        Configuration configuration = new Configuration();
+        configuration.setCompileCommand(compileCommand);
+        configuration.setRunCommand(runCommand);
 
-        Configuration config = new Configuration(language, command);
+        Compiler compiler = new Compiler();
 
         try {
-            compiler.runAttempt(config);
+            compiler.compileAndRun(parentDirectory, configuration);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
+
 
     private void fillTable() {
         stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
