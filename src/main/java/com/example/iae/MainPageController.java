@@ -23,6 +23,20 @@ public class MainPageController {
     @FXML
     private Label welcomeText;
 
+    //For New Project Page
+    @FXML
+    private Button createProjectButton;
+
+    @FXML
+    private TextField newProjectNameText;
+
+    @FXML
+    private TextField projectConfigPathText;
+
+    @FXML
+    private TextField projectFoldPathText;
+
+
     @FXML
     private Button addFolderButton;
     @FXML
