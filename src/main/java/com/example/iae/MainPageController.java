@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static com.example.iae.Main.completeJavaTest;
+
 public class MainPageController {
     @FXML
     private Label welcomeText;
@@ -152,43 +154,46 @@ public class MainPageController {
     }
 
     @FXML
-    private void runButtonFunc() { /** THIS METHOD SHOULD SUCCESSFULLY COMPILE AND RUN THE STUDENT FILE.
-                                      I used a certain factorial java file to test,
-                                      but when I run the commands, it does not compile and run,
-                                      actually when I hit the run button nothing happens... **/
+    private void runButtonFunc() {
+        String compileCommand = compCmdText.getText().trim();
+        String runCommand = runCmdText.getText().trim();
 
-        String sourceFilePath = "src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/20160602169/FactorialCalculator.java";
-        String compileCommand;
-        String runCommand;
+        if (compileCommand.isEmpty() || runCommand.isEmpty()) {
 
-        if (sourceFilePath.endsWith(".java")) {
-            compileCommand = "javac " + sourceFilePath;
-            runCommand = "java " + sourceFilePath.substring(sourceFilePath.lastIndexOf("/") + 1, sourceFilePath.lastIndexOf("."));
-        } else if (sourceFilePath.endsWith(".c")) {
-            compileCommand = "gcc " + sourceFilePath + " -o " + sourceFilePath.substring(0, sourceFilePath.lastIndexOf("."));
-            runCommand = sourceFilePath.substring(0, sourceFilePath.lastIndexOf("."));
-        } else {
-            System.out.println("File not supported!!");
+            System.out.println("To Proceed with running the program,\n fill in the required compile/run fields!");
             return;
         }
 
-        String parentDirectory = new File(sourceFilePath).getParent();
-
-        Configuration configuration = new Configuration();
-        configuration.setCompileCommand(compileCommand);
-        configuration.setRunCommand(runCommand);
-
-        Compiler compiler = new Compiler();
-
         try {
-            compiler.compileAndRun(parentDirectory, configuration);
+            String projectDir = "./src/src/test/manuelTestFolders/test_IAE/javaCompleteTest";
+
+            // Unzip
+            ZipCommands.extractAllZips(projectDir, projectDir);
+
+            // Configuration
+            Configuration configuration = new Configuration("javaComplete", compileCommand, runCommand, 5); // Assuming time limit is 5
+
+            // Project
+            Project project = new Project("factorial assignment", projectDir);
+
+            // Compile and run
+            Compiler compiler = new Compiler();
+            compiler.runForAllStudentFiles(project, configuration);
+
+
+            readValuesFromFile("src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/javaCompleteTest.txt");
+            scoreTable.refresh();
+
+            ScoreDocument scoreDocument = new ScoreDocument();
+            scoreDocument.fillList(projectDir);
+
+            FileOperations fileOperations = new FileOperations();
+            fileOperations.createReportFile(scoreDocument, projectDir);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
 
     private void fillTable() {
         stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));

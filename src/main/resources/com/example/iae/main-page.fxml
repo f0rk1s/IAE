@@ -16,7 +16,7 @@
 
 <AnchorPane prefHeight="618.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iae.MainPageController">
    <children>
-      <Button id="addFolderButton" fx:id="addFolderButton" layoutX="14.0" layoutY="81.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="106.0" text="Add Folder" />
+      <Button id="addFolderButton" fx:id="addFolderButton" layoutX="14.0" layoutY="81.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="106.0" text="Add Folder" onAction="#addFolderFunc"/>
       <TextArea fx:id="correctResultArea" editable="false" layoutX="14.0" layoutY="150.0" prefHeight="181.0" prefWidth="287.0" />
       <Label id="correctResultTextA" layoutX="23.0" layoutY="130.0" prefHeight="18.0" prefWidth="88.0" text="Correct Result" />
       <RadioButton id="onlyRun" fx:id="onlyRun" layoutX="338.0" layoutY="139.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Only Run">
@@ -29,7 +29,7 @@
       <TextField fx:id="runCmdText" layoutX="340.0" layoutY="268.0" prefHeight="26.0" prefWidth="239.0" />
       <Label id="compCmd" layoutX="338.0" layoutY="178.0" prefHeight="18.0" prefWidth="121.0" text="Compile command" />
       <Label id="runCmd" layoutX="340.0" layoutY="241.0" prefHeight="18.0" prefWidth="98.0" text="Run command" />
-      <Button id="runButton" fx:id="runButton" layoutX="517.0" layoutY="305.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="60.0" text="Run" textAlignment="CENTER" />
+      <Button id="runButton" fx:id="runButton" layoutX="517.0" layoutY="305.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="60.0" text="Run" textAlignment="CENTER" onAction="#runButtonFunc"/>
       <Label id="scoreTable" layoutX="23.0" layoutY="345.0" prefHeight="18.0" prefWidth="78.0" text="Scores Table" textAlignment="CENTER" />
       <Button id="newProjectButton" fx:id="newProjectButton" layoutX="158.0" layoutY="81.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="106.0" text="New Project" />
       <ScrollPane layoutX="14.0" layoutY="363.0" prefHeight="200.0" prefWidth="570.0">
