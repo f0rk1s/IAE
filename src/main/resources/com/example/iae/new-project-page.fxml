@@ -5,17 +5,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="337.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iae.MainPageController">
+<AnchorPane prefHeight="337.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iae.MainPageController">
    <children>
       <Label layoutX="102.0" layoutY="47.0" prefHeight="18.0" prefWidth="85.0" text="Project Name:" />
       <TextField fx:id="newProjectNameText" layoutX="188.0" layoutY="44.0" prefHeight="26.0" prefWidth="186.0" />
-      <Button layoutX="51.0" layoutY="108.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="157.0" text="Search for a project folder" />
+      <Button fx:id="searchProjectFolder" layoutX="51.0" layoutY="108.0" mnemonicParsing="false" onAction="#searchForProjectFolder" prefHeight="26.0" prefWidth="157.0" text="Search for a project folder" />
       <TextField fx:id="projectFoldPathText" editable="false" layoutX="230.0" layoutY="108.0" prefHeight="26.0" prefWidth="186.0" />
-      <Button layoutX="51.0" layoutY="166.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="157.0" text="Search for a configuration" />
+      <Button layoutX="51.0" layoutY="166.0" mnemonicParsing="false" onAction="#s" prefHeight="26.0" prefWidth="157.0" text="Search for a configuration" />
       <Label layoutX="74.0" layoutY="192.0" text="or" />
       <Button layoutX="51.0" layoutY="210.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="157.0" text="Add a configuration" />
       <TextField fx:id="projectConfigPathText" editable="false" layoutX="230.0" layoutY="187.0" prefHeight="26.0" prefWidth="186.0" />
-      <Button fx:id="createProjectButton" layoutX="349.0" layoutY="263.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="102.0" text="Create project" textAlignment="CENTER" />
+      <Button fx:id="createProjectButton" layoutX="349.0" layoutY="263.0" mnemonicParsing="false" onAction="#newProjectPage_createProjectButtonAction" prefHeight="38.0" prefWidth="102.0" text="Create project" textAlignment="CENTER" />
    </children>
 </AnchorPane>

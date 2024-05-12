@@ -9,27 +9,27 @@ import java.io.File;
 public class FolderChooserApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
+        // Do nothing in the start method
+    }
+
+    // Method to show the folder chooser dialog and return the selected folder path
+    public static String showFolderChooser(Stage stage) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Select Folder");
 
-        File selectedFolder = directoryChooser.showDialog(primaryStage);
+        File selectedFolder = directoryChooser.showDialog(stage);
 
         if (selectedFolder != null) {
             String sourceFolder = selectedFolder.getAbsolutePath();
             System.out.println("Selected folder: " + sourceFolder);
-            unzipAllInSelectedFolder(sourceFolder);
-
-            //we can also delete the zip files after the extraction
+            return sourceFolder;
         } else {
             System.out.println("No folder selected.");
+            return "";
         }
     }
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public static void unzipAllInSelectedFolder(String sourceFolder) {
-        ZipCommands.extractAllZips(sourceFolder, sourceFolder);
     }
 }

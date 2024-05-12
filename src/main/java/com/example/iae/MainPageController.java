@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.awt.event.ActionEvent;
@@ -20,12 +21,19 @@ import java.io.IOException;
 import static com.example.iae.Main.completeJavaTest;
 
 public class MainPageController {
+
+    private Project project;
+    private Configuration configuration;
+
     @FXML
     private Label welcomeText;
 
     //For New Project Page
     @FXML
     private Button createProjectButton;
+
+    @FXML
+    private Button searchProjectFolder;
 
     @FXML
     private TextField newProjectNameText;
@@ -169,40 +177,27 @@ public class MainPageController {
 
     @FXML
     private void runButtonFunc() {
-        String compileCommand = compCmdText.getText().trim();
-        String runCommand = runCmdText.getText().trim();
+        compCmdText.setText(configuration.getCompileCommand());
+        runCmdText.setText(configuration.getRunCommand());
 
-        if (compileCommand.isEmpty() || runCommand.isEmpty()) {
-
-            System.out.println("To Proceed with running the program,\n fill in the required compile/run fields!");
-            return;
-        }
 
         try {
-            String projectDir = "./src/src/test/manuelTestFolders/test_IAE/javaCompleteTest";
-
-            // Unzip
-            ZipCommands.extractAllZips(projectDir, projectDir);
-
-            // Configuration
-            Configuration configuration = new Configuration("javaComplete", compileCommand, runCommand, 5); // Assuming time limit is 5
-
-            // Project
-            Project project = new Project("factorial assignment", projectDir);
-
-            // Compile and run
             Compiler compiler = new Compiler();
             compiler.runForAllStudentFiles(project, configuration);
 
-
-            readValuesFromFile("src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/javaCompleteTest.txt");
-            scoreTable.refresh();
-
+            String projectFolderPath = project.getFolderPath();
             ScoreDocument scoreDocument = new ScoreDocument();
-            scoreDocument.fillList(projectDir);
+            scoreDocument.fillList(projectFolderPath);
 
             FileOperations fileOperations = new FileOperations();
-            fileOperations.createReportFile(scoreDocument, projectDir);
+            fileOperations.createReportFile(scoreDocument, projectFolderPath);
+
+            scoreTable.refresh();
+            File projectFolder = new File(projectFolderPath);
+            String projectName = projectFolder.getName();
+            String documentPath = projectFolderPath + "/" + projectName + ".txt";
+            readValuesFromFile(documentPath);
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -217,8 +212,57 @@ public class MainPageController {
         //scoreTable.refresh(); // Refresh the table view
     }
 
+    //TODO: Project creation
+
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    private void newProjectPage_createProjectButtonAction() {
+        String projectName = newProjectNameText.getText().trim();
+
+        //project folder path
+        String projectFolderPath = projectFoldPathText.getText().trim();
+
+        Project p = new Project(projectName, projectFolderPath); //our project
+
+        String confName = projectConfigPathText.getText(); //conf name
+        Configuration conf = new Configuration(confName); //our configuration
+
+        project = p;
+        configuration = conf;
     }
+
+    @FXML
+    private void searchForConfigurationAction() {
+        Stage stage = new Stage();
+
+        // Call the showFileChooser method from the FileChooserApplication class
+        String selectedFilePath = FileChooserApplication.showFileChooser(stage);
+        //
+
+        // Do something with the selected file path
+        System.out.println("Selected file path from another class: " + selectedFilePath);
+    }
+
+
+
+    @FXML
+    private void NewProjectButtonAction() {
+
+    }
+
+    @FXML
+    private void searchForProjectFolder() {
+        Stage stage = new Stage();
+
+        // Call the showFolderChooser method from the FolderChooserApplication class
+        String projectFolderPath = FolderChooserApplication.showFolderChooser(stage);
+        projectFoldPathText.setText(projectFolderPath);
+
+        // Do something with the selected folder path
+        System.out.println("Selected folder path from another class: " + projectFolderPath);
+    }
+
+
+
+
+
 }
