@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField id="ConfigRunText" fx:id="configRunText" layoutX="68.0" layoutY="222.0" prefHeight="26.0" prefWidth="246.0" />
+      <TextField id="ConfigTimeText" fx:id="configTimeText" layoutX="69.0" layoutY="286.0" prefHeight="26.0" prefWidth="246.0" />
+      <TextField id="configCompText" fx:id="configCompText" layoutX="68.0" layoutY="160.0" prefHeight="26.0" prefWidth="245.0" />
+      <Label layoutX="138.0" layoutY="133.0" text="Compile Command" />
+      <Label layoutX="150.0" layoutY="198.0" text="Run Command" />
+      <Label layoutX="152.0" layoutY="261.0" text="Compile Time" />
+      <Button id="ConfigSaveButton" fx:id="configSaveButton" layoutX="265.0" layoutY="348.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="79.0" text="Save" />
+      <Button id="ConfigSaveButton" fx:id="editConfigButton" layoutX="46.0" layoutY="48.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="133.0" text="Edit Configuration" />
+      <Button id="ConfigSaveButton" fx:id="delConfigButton" layoutX="46.0" layoutY="82.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="Delete Configuration" />
+      <Button fx:id="loadConfigButton" layoutX="200.0" layoutY="48.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="Load Configuration" />
+      <Button id="ConfigSaveButton" fx:id="newConfigButton" layoutX="200.0" layoutY="82.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="New Configuration" />
+   </children>
+</AnchorPane>

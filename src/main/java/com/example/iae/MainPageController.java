@@ -12,11 +12,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 import static com.example.iae.Main.completeJavaTest;
 
@@ -27,6 +23,10 @@ public class MainPageController {
 
     @FXML
     private Label welcomeText;
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     //For New Project Page
     @FXML
@@ -43,6 +43,31 @@ public class MainPageController {
 
     @FXML
     private TextField projectFoldPathText;
+
+    //Configuration Settings Page
+    @FXML
+    private TextField configCompText;
+
+    @FXML
+    private TextField configRunText;
+
+    @FXML
+    private Button configSaveButton;
+
+    @FXML
+    private TextField configTimeText;
+
+    @FXML
+    private Button delConfigButton;
+
+    @FXML
+    private Button editConfigButton;
+
+    @FXML
+    private Button loadConfigButton;
+
+    @FXML
+    private Button newConfigButton;
 
 
     @FXML
@@ -77,6 +102,7 @@ public class MainPageController {
     @FXML
     private TableColumn<ScoreDocument.StudentResult, String> stdIDcol;
     private Compiler compiler;
+    public MainPageController controller;
 
     private void readValuesFromFile(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -101,6 +127,7 @@ public class MainPageController {
         compiler = new Compiler();
         runButtonFunc();
         configSetButton.setOnAction(event -> openConfigSettings());
+        newProjectButton.setOnAction(event -> openNewProject());
 
         System.out.println("initialize() method called");
         stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
@@ -129,16 +156,37 @@ public class MainPageController {
     }
 
     @FXML
-    private void openConfigSettings() { //NOT WORKING WHEN I CLICK ON CONFIGURATION SETTINGS - WHY?
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("config-page.fxml"));
-                Parent root = fxmlLoader.load();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public void openConfigSettings() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("deneme.fxml"));
+            Scene scene = new Scene(loader.load(), 361, 400);
+            this.controller = loader.getController();
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setTitle("Configuration Settings");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    private void openNewProject() {
+        try {
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("new-new-project-page.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 490, 337);
+            stage.setResizable(false);
+            this.controller = fxmlLoader.getController();
+            stage.setTitle("New Project");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
         @FXML
