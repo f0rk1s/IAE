@@ -225,9 +225,20 @@ public class MainPageController {
 
     @FXML
     private void runButtonFunc() {
-        compCmdText.setText(configuration.getCompileCommand());
-        runCmdText.setText(configuration.getRunCommand());
 
+        if (configuration == null) {
+            System.out.println("!!");
+            return;
+        }
+
+        String compileCommand = configuration.getCompileCommand();
+        String runCommand = configuration.getRunCommand();
+
+
+        if (compileCommand == null || compileCommand.isEmpty() || runCommand == null || runCommand.isEmpty()) {
+            System.out.println("Compile command or Run command fields are not set.");
+            return;
+        }
 
         try {
             Compiler compiler = new Compiler();
