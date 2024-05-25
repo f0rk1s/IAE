@@ -1,10 +1,10 @@
-package com.example.iae;
+package main.java.org.example;
+
+import java.io.File;
 
 import javafx.application.Application;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
 
 public class FolderChooser extends Application {
     @Override

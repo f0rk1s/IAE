@@ -1,4 +1,4 @@
-package com.example.iae;
+package main.java.org.example;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,7 +9,8 @@ public class CCompiler {
 
     public static void main(String[] args) {
         String sourceFilePath = "\"C:\\Users\\Forkis\\Desktop\\dasfadsfa\\main.c\"";
-        String executableFilePath = sourceFilePath.replace(".c", ".exe"); // Assuming the output executable file will have the same name with .exe extension
+        String executableFilePath = sourceFilePath.replace(".c", ".exe"); // Assuming the output executable file will
+                                                                          // have the same name with .exe extension
 
         // Compile the C file
         if (compileCFile(sourceFilePath, executableFilePath)) {
