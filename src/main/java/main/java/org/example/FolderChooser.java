@@ -9,7 +9,7 @@ public class FolderChooser extends JPanel {
     private JTextArea log;
     private JFileChooser fc;
 
-    public JPanel createFolderChooserPanel(Main mainFrame) {
+    public JPanel createFolderChooserPanel(org.example.Main mainFrame) {
         JPanel panel = new JPanel(new BorderLayout());
 
         // Create the log first, because the action listeners need to refer to it.
