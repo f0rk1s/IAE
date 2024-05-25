@@ -7,11 +7,10 @@ module com.example.iae {
     requires com.fasterxml.jackson.databind;
     requires javafx.graphics;
 
-    opens com.example.iae to javafx.fxml;
-
     exports com.example.iae;
 
     opens main.java.org.example to javafx.graphics;
 
     exports main.java.org.example;
+    opens com.example.iae to javafx.fxml, javafx.graphics;
 }

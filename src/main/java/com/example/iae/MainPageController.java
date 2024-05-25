@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -126,22 +125,21 @@ public class MainPageController {
 
     @FXML
     private void goToMainPage(ActionEvent event) {
-        switchScene("/com/example/iae/main-page.fxml");
+        switchScene("/com/example/iae/newmainPage.fxml", event);
     }
-
     @FXML
     private void goToProjects(ActionEvent event) {
-        switchScene("/com/example/iae/new-project-page.fxml");
+        switchScene("/com/example/iae/new-project-page.fxml", event);
     }
 
     @FXML
     private void goToConfiguration(ActionEvent event) {
-        switchScene("/com/example/iae/configuration.fxml");
+        switchScene("/com/example/iae/configuration.fxml", event);
     }
 
     @FXML
     private void goToSaveResult(ActionEvent event) {
-        switchScene("/com/example/iae/save-result.fxml");
+        switchScene("/com/example/iae/save-result.fxml", event);
     }
 
     @FXML
@@ -278,11 +276,13 @@ public class MainPageController {
         configTimeText.clear();
     }
 
-    private void switchScene(String fxmlFilePath) {
+
+
+    private void switchScene(String fxmlFilePath, ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFilePath));
             Parent root = loader.load();
-            Stage stage = (Stage) mainPageButton.getScene().getWindow();
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
