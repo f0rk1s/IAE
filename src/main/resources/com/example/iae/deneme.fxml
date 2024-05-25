@@ -1,23 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iae.MainPageController" stylesheets="@style.css">
    <children>
-      <TextField id="ConfigRunText" fx:id="configRunText" layoutX="68.0" layoutY="222.0" prefHeight="26.0" prefWidth="246.0" />
-      <TextField id="ConfigTimeText" fx:id="configTimeText" layoutX="69.0" layoutY="286.0" prefHeight="26.0" prefWidth="246.0" />
-      <TextField id="configCompText" fx:id="configCompText" layoutX="68.0" layoutY="160.0" prefHeight="26.0" prefWidth="245.0" />
-      <Label layoutX="138.0" layoutY="133.0" text="Compile Command" />
-      <Label layoutX="150.0" layoutY="198.0" text="Run Command" />
-      <Label layoutX="152.0" layoutY="261.0" text="Compile Time" />
-      <Button id="ConfigSaveButton" fx:id="configSaveButton" layoutX="265.0" layoutY="348.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="79.0" text="Save" />
-      <Button id="ConfigSaveButton" fx:id="editConfigButton" layoutX="46.0" layoutY="48.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="133.0" text="Edit Configuration" />
-      <Button id="ConfigSaveButton" fx:id="delConfigButton" layoutX="46.0" layoutY="82.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="Delete Configuration" />
-      <Button fx:id="loadConfigButton" layoutX="200.0" layoutY="48.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="Load Configuration" />
-      <Button id="ConfigSaveButton" fx:id="newConfigButton" layoutX="200.0" layoutY="82.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="New Configuration" />
+      <VBox alignment="CENTER" spacing="20" layoutX="14.0" layoutY="10.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <HBox spacing="10">
+               <children>
+                  <Button fx:id="mainPageButton" text="Main Page" onAction="#goToMainPage" />
+                  <Button fx:id="projectButton" text="Projects" onAction="#goToProjects" />
+                  <Button fx:id="configButton" text="Configuration">
+                     <contextMenu>
+                        <ContextMenu>
+                           <items>
+                              <MenuItem text="Add" onAction="#addConfiguration"/>
+                              <MenuItem text="Edit" onAction="#editConfiguration"/>
+                              <MenuItem text="Delete" onAction="#deleteConfiguration"/>
+                           </items>
+                        </ContextMenu>
+                     </contextMenu>
+                  </Button>
+                  <Button fx:id="saveResultButton" text="Save Result" onAction="#goToSaveResult" />
+                  <Button fx:id="runButton" text="Run" onAction="#runButtonFunc" />
+               </children>
+            </HBox>
+            <TextArea fx:id="correctResultArea" editable="false" prefHeight="100.0" prefWidth="600.0" />
+            <TableView fx:id="scoreTable" prefHeight="400.0" prefWidth="600.0">
+               <columns>
+                  <TableColumn fx:id="stdIDcol" text="Student ID" prefWidth="200.0" />
+                  <TableColumn fx:id="outcomeCol" text="Outcome" prefWidth="200.0" />
+                  <TableColumn fx:id="scoreCol" text="Score" prefWidth="200.0" />
+               </columns>
+            </TableView>
+            <HBox spacing="10">
+               <children>
+                  <Label text="Compile Command:"/>
+                  <TextField fx:id="configCompText"/>
+               </children>
+            </HBox>
+            <HBox spacing="10">
+               <children>
+                  <Label text="Run Command:"/>
+                  <TextField fx:id="configRunText"/>
+               </children>
+            </HBox>
+            <HBox spacing="10">
+               <children>
+                  <Label text="Time Limit:"/>
+                  <TextField fx:id="configTimeText"/>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

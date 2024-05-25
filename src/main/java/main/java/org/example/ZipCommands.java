@@ -1,4 +1,4 @@
-package com.example.iae;
+package main.java.org.example;
 
 import java.io.File;
 import java.io.FileInputStream;

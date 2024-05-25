@@ -8,22 +8,22 @@ public class Main {
         pythonSortFile();
     }
 
-    static void completeJavaTest() throws IOException { //passed
+    static void completeJavaTest() throws IOException { // passed
         String projectDir = "./src/src/test/manuelTestFolders/test_IAE/javaCompleteTest";
 
-        //unzip
+        // unzip
         ZipCommands.extractAllZips(projectDir, projectDir);
 
-        //configuration
+        // configuration
         String compile = "javac FactorialCalculator.java";
         String run = "java FactorialCalculator 5";
         int timeLimit = 5;
         Configuration configuration = new Configuration("javaComplete", compile, run, timeLimit);
 
-        //project
+        // project
         Project project = new Project("factorial assignment", projectDir);
 
-        //compile and run
+        // compile and run
         Compiler compiler = new Compiler();
         compiler.runForAllStudentFiles(project, configuration);
 
@@ -34,22 +34,23 @@ public class Main {
         fileOperations.createReportFile(scoreDocument, projectDir);
     }
 
-    static void javaSortStringsFromStdInWithFile() throws IOException { //TODO: cannot read information from an input file with '<'
+    static void javaSortStringsFromStdInWithFile() throws IOException { // TODO: cannot read information from an input
+                                                                        // file with '<'
         String projectDir = "./src/src/test/manuelTestFolders/test_IAE/java code for sorting/sortFromFile";
 
-        //unzip
+        // unzip
         ZipCommands.extractAllZips(projectDir, projectDir);
 
-        //configuration
+        // configuration
         String compile = "javac sortStdin.java";
         String run = "java sortStdin < inputs.txt";
         int timeLimit = 5;
         Configuration configuration = new Configuration("javaSortStdin", compile, run, timeLimit);
 
-        //project
+        // project
         Project project = new Project("sortStdin", projectDir);
 
-        //compile and run
+        // compile and run
         Compiler compiler = new Compiler();
         compiler.runForAllStudentFiles(project, configuration);
 
@@ -63,19 +64,19 @@ public class Main {
     static void javaSortArguments() throws IOException {
         String projectDir = "./src/src/test/manuelTestFolders/test_IAE/java code for sorting/sortFromFile";
 
-        //unzip
+        // unzip
         ZipCommands.extractAllZips(projectDir, projectDir);
 
-        //configuration
+        // configuration
         String compile = "javac sortStdin.java";
         String run = "java sortStdin < inputs.txt";
         int timeLimit = 5;
         Configuration configuration = new Configuration("javaSortStdin", compile, run, timeLimit);
 
-        //project
+        // project
         Project project = new Project("sortStdin", projectDir);
 
-        //compile and run
+        // compile and run
         Compiler compiler = new Compiler();
         compiler.runForAllStudentFiles(project, configuration);
 
@@ -89,16 +90,16 @@ public class Main {
     static void pythonSortArguments() throws IOException {
         String projectDir = "./src/src/test/manuelTestFolders/test_IAE/python sort/python sort arguments";
 
-        //configuration
+        // configuration
         String compile = "";
         String run = "python sort_arguments.py banana apple cherry";
         int timeLimit = 5;
         Configuration configuration = new Configuration("pySortArg", compile, run, timeLimit);
 
-        //project
+        // project
         Project project = new Project("sortArg", projectDir);
 
-        //compile and run
+        // compile and run
         Compiler compiler = new Compiler();
         compiler.runForAllStudentFiles(project, configuration);
 
@@ -112,16 +113,16 @@ public class Main {
     static void pythonSortFile() throws IOException {
         String projectDir = "./src/src/test/manuelTestFolders/test_IAE/python sort/python sort from file";
 
-        //configuration
+        // configuration
         String compile = "";
         String run = "python sort_strings.py inputs.txt";
         int timeLimit = 5;
         Configuration configuration = new Configuration("pySortArg", compile, run, timeLimit);
 
-        //project
+        // project
         Project project = new Project("sortArg", projectDir);
 
-        //compile and run
+        // compile and run
         Compiler compiler = new Compiler();
         compiler.runForAllStudentFiles(project, configuration);
 
@@ -130,7 +131,7 @@ public class Main {
 
         FileOperations fileOperations = new FileOperations();
         fileOperations.createReportFile(scoreDocument, projectDir);
-    }
 
+    }
 
 }

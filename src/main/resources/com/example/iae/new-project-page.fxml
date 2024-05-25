@@ -1,20 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="337.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iae.MainPageController">
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iae.MainPageController" stylesheets="@style.css">
    <children>
-      <Label layoutX="102.0" layoutY="47.0" prefHeight="18.0" prefWidth="85.0" text="Project Name:" />
-      <TextField fx:id="newProjectNameText" layoutX="188.0" layoutY="44.0" prefHeight="26.0" prefWidth="186.0" />
-      <Button fx:id="searchProjectFolder" layoutX="51.0" layoutY="108.0" mnemonicParsing="false" onAction="#searchForProjectFolder" prefHeight="26.0" prefWidth="157.0" text="Search for a project folder" />
-      <TextField fx:id="projectFoldPathText" editable="false" layoutX="230.0" layoutY="108.0" prefHeight="26.0" prefWidth="186.0" />
-      <Button layoutX="51.0" layoutY="166.0" mnemonicParsing="false" onAction="#s" prefHeight="26.0" prefWidth="157.0" text="Search for a configuration" />
-      <Label layoutX="74.0" layoutY="192.0" text="or" />
-      <Button layoutX="51.0" layoutY="210.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="157.0" text="Add a configuration" />
-      <TextField fx:id="projectConfigPathText" editable="false" layoutX="230.0" layoutY="187.0" prefHeight="26.0" prefWidth="186.0" />
-      <Button fx:id="createProjectButton" layoutX="349.0" layoutY="263.0" mnemonicParsing="false" onAction="#newProjectPage_createProjectButtonAction" prefHeight="38.0" prefWidth="102.0" text="Create project" textAlignment="CENTER" />
+      <VBox alignment="CENTER" spacing="20" layoutX="14.0" layoutY="10.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <HBox spacing="10">
+               <children>
+                  <Button fx:id="mainPageButton" text="Main Page" onAction="#goToMainPage" />
+                  <Button fx:id="projectButton" text="Projects" onAction="#goToProjects" />
+                  <Button fx:id="configButton" text="Configuration">
+                     <contextMenu>
+                        <ContextMenu>
+                           <items>
+                              <MenuItem text="Add" onAction="#addConfiguration"/>
+                              <MenuItem text="Edit" onAction="#editConfiguration"/>
+                              <MenuItem text="Delete" onAction="#deleteConfiguration"/>
+                           </items>
+                        </ContextMenu>
+                     </contextMenu>
+                  </Button>
+                  <Button fx:id="saveResultButton" text="Save Result" onAction="#goToSaveResult" />
+                  <Button fx:id="runButton" text="Run" onAction="#runButtonFunc" />
+               </children>
+            </HBox>
+            <TextArea fx:id="correctResultArea" editable="false" prefHeight="100.0" prefWidth="600.0" />
+            <TableView fx:id="scoreTable" prefHeight="400.0" prefWidth="600.0">
+               <columns>
+                  <TableColumn fx:id="stdIDcol" text="Student ID" prefWidth="200.0" />
+                  <TableColumn fx:id="outcomeCol" text="Outcome" prefWidth="200.0" />
+                  <TableColumn fx:id="scoreCol" text="Score" prefWidth="200.0" />
+               </columns>
+            </TableView>
+            <HBox spacing="10">
+               <children>
+                  <Label text="Compile Command:"/>
+                  <TextField fx:id="configCompText"/>
+               </children>
+            </HBox>
+            <HBox spacing="10">
+               <children>
+                  <Label text="Run Command:"/>
+                  <TextField fx:id="configRunText"/>
+               </children>
+            </HBox>
+            <HBox spacing="10">
+               <children>
+                  <Label text="Time Limit:"/>
+                  <TextField fx:id="configTimeText"/>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
