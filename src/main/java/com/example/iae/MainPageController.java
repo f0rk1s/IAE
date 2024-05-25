@@ -104,7 +104,7 @@ public class MainPageController {
     private Compiler compiler;
     public MainPageController controller;
 
-    private void readValuesFromFile(String filePath) {
+    public void readValuesFromFile(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -119,7 +119,6 @@ public class MainPageController {
         }
     }
 
-
     @FXML
     public void initialize() {
         loadCorrectResult();
@@ -130,11 +129,14 @@ public class MainPageController {
         newProjectButton.setOnAction(event -> openNewProject());
 
         System.out.println("initialize() method called");
+
         stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         outcomeCol.setCellValueFactory(new PropertyValueFactory<>("result"));
         scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
         scoreTable.refresh();
-        readValuesFromFile("src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/javaCompleteTest.txt");
+
+        String filePath = "src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/javaCompleteTest.txt";
+        readValuesFromFile(filePath);
 
         scoreTable.setRowFactory(tv -> new TableRow<ScoreDocument.StudentResult>() {
             @Override
