@@ -53,18 +53,11 @@ public class MainPageController {
     @FXML
     private TextField configRunText;
     @FXML
-    private TextField configTimeText;
-
-    private Configuration configuration;
-    private Project project;
 
     @FXML
     private void initialize() {
         loadCorrectResult();
 
-        stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
-        outcomeCol.setCellValueFactory(new PropertyValueFactory<>("result"));
-        scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
 
         scoreTable.setRowFactory(tv -> new TableRow<ScoreDocument.StudentResult>() {
             @Override
