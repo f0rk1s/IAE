@@ -26,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'com.example.iae'
-    mainClass = 'com.example.iae.HelloApplication'
+    mainClass = 'com.example.iae.IntegratedAssignmentEnvApp'  // Update this to your main class
 }
 
 javafx {
@@ -35,8 +35,10 @@ javafx {
 }
 
 dependencies {
-    implementation('org.controlsfx:controlsfx:11.1.2')
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'
+    implementation 'org.openjfx:javafx-controls:18.0.2'
+    implementation 'org.openjfx:javafx-fxml:18.0.2'
+    implementation 'org.controlsfx:controlsfx:11.1.0'  // Add ControlsFX dependency
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'  // Add Jackson Databind dependency
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
@@ -56,4 +58,13 @@ jlink {
 
 jlinkZip {
     group = 'distribution'
+}
+
+run {
+    doFirst {
+        jvmArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls,javafx.fxml'
+        ]
+    }
 }

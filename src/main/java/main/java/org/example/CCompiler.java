@@ -1,4 +1,4 @@
-package main.java.org.example;
+package org.example;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,20 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class CCompiler {
-
-    public static void main(String[] args) {
-        String sourceFilePath = "\"C:\\Users\\Forkis\\Desktop\\dasfadsfa\\main.c\"";
-        String executableFilePath = sourceFilePath.replace(".c", ".exe"); // Assuming the output executable file will
-                                                                          // have the same name with .exe extension
-
-        // Compile the C file
-        if (compileCFile(sourceFilePath, executableFilePath)) {
-            // Run the compiled executable
-            runExecutable(executableFilePath);
-        } else {
-            System.out.println("Compilation failed. Check the error messages.");
-        }
-    }
 
     public static boolean compileCFile(String sourceFilePath, String executableFilePath) {
         try {
@@ -39,7 +25,8 @@ public class CCompiler {
         }
     }
 
-    public static void runExecutable(String executableFilePath) {
+    public static String runExecutable(String executableFilePath) {
+        StringBuilder output = new StringBuilder();
         try {
             // Execute the compiled executable
             Process process = new ProcessBuilder(executableFilePath).start();
@@ -48,7 +35,7 @@ public class CCompiler {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                output.append(line).append("\n");
             }
 
             // Wait for the execution process to finish
@@ -56,5 +43,6 @@ public class CCompiler {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        return output.toString();
     }
 }

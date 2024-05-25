@@ -8,7 +8,7 @@ public class FileOperations {
 
     public static final String CONFIG_FOLDER_PATH = "./src/src/test/manuelTestFolders/test_IAE/configuration"; //folder path of configurations folder.
     public static final String PROJECT_FOLDER_PATH = "./src/src/test/manuelTestFolders/test_IAE/project";
-    public List<String> listConfigurationNames() {
+    public static List<String> listConfigurationNames() {
         List<String> configurationNames = new ArrayList<>();
 
         //get the directory for configurations

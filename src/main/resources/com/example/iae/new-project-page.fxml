@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -31,7 +32,7 @@
                         </ContextMenu>
                      </contextMenu>
                   </Button>
-                  <Button fx:id="saveResultButton" text="Save Result" />
+                  <Button fx:id="saveResultButton" text="Save Result" onAction="#goToSaveResult" />
                   <Button fx:id="runButton" text="Run" onAction="#runButtonFunc" />
                </children>
             </HBox>
@@ -43,6 +44,24 @@
                   <TableColumn fx:id="scoreCol" text="Score" prefWidth="200.0" />
                </columns>
             </TableView>
+            <HBox spacing="10">
+               <children>
+                  <Label text="Compile Command:"/>
+                  <TextField fx:id="configCompText"/>
+               </children>
+            </HBox>
+            <HBox spacing="10">
+               <children>
+                  <Label text="Run Command:"/>
+                  <TextField fx:id="configRunText"/>
+               </children>
+            </HBox>
+            <HBox spacing="10">
+               <children>
+                  <Label text="Time Limit:"/>
+                  <TextField fx:id="configTimeText"/>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>

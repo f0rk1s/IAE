@@ -7,17 +7,23 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class IntegratedAssignmentEnvApp extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/iae/main-page.fxml"));
+            URL fxmlLocation = getClass().getResource("/com/example/iae/main-page.fxml");
+            if (fxmlLocation == null) {
+                throw new IOException("FXML file not found!");
+            }
+
+            FXMLLoader fxmlLoader = new FXMLLoader(fxmlLocation);
             Scene scene = new Scene(fxmlLoader.load(), 600, 618);
 
-            String css = getClass().getResource("/com/example/iae/style.css").toExternalForm();
-            if (css != null) {
-                scene.getStylesheets().add(css);
+            URL cssLocation = getClass().getResource("/com/example/iae/style.css");
+            if (cssLocation != null) {
+                scene.getStylesheets().add(cssLocation.toExternalForm());
             } else {
                 System.out.println("CSS file not found!");
             }
