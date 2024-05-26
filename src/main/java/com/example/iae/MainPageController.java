@@ -366,7 +366,6 @@ public class MainPageController {
         // Do something with the selected folder path
         System.out.println("Selected folder path from another class: " + projectFolderPath);
     }
-   
 
     @FXML
     private void saveFilesToDesktop() {
