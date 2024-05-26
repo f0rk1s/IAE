@@ -342,7 +342,7 @@ public class MainPageController {
     }
 
 
-    private void fillTable() {
+    private void fillTable() //fill the table{
         stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         outcomeCol.setCellValueFactory(new PropertyValueFactory<>("result"));
         scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
@@ -350,7 +350,6 @@ public class MainPageController {
         //scoreTable.refresh(); // Refresh the table view
     }
 
-    //TODO: Project creation
 
     @FXML
     private void newProjectPage_createProjectButtonAction() {
