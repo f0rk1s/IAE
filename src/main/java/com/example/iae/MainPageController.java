@@ -1,93 +1,110 @@
 package com.example.iae;
 
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Side;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.paint.Color;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+
+import static com.example.iae.Main.completeJavaTest;
 
 public class MainPageController {
 
-    @FXML
-    private Button mainPageButton;
+    private Project project;
+    private Configuration configuration;
 
     @FXML
-    private Button projectButton;
+    private Label welcomeText;
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+    //For New Project Page
+    @FXML
+    private Button createProjectButton;
 
     @FXML
-    private Button configButton;
+    private Button searchProjectFolder;
+
+    @FXML
+    private TextField newProjectNameText;
+
+    @FXML
+    private TextField projectConfigPathText;
+
+    @FXML
+    private TextField projectFoldPathText;
+
+    //Configuration Settings Page
+    @FXML
+    private TextField configCompText;
+
+    @FXML
+    private TextField configRunText;
+
+    @FXML
+    private Button configSaveButton;
+
+    @FXML
+    private TextField configTimeText;
+
+    @FXML
+    private Button delConfigButton;
+
+    @FXML
+    private Button editConfigButton;
+
+    @FXML
+    private Button loadConfigButton;
+
+    @FXML
+    private Button newConfigButton;
+
+
+    @FXML
+    private Button addFolderButton;
+    @FXML
+    private Button newProjectButton;
+    @FXML
+    private Button configSetButton;
+    @FXML
+    private Button runButton;
+
+    @FXML
+    private RadioButton onlyRun;
+    @FXML
+    private RadioButton compNrun;
 
     @FXML
     private TextArea correctResultArea;
 
     @FXML
-    private TableView<ScoreDocument.StudentResult> scoreTable;
+    private TextField compCmdText;
+    @FXML
+    private TextField runCmdText;
 
     @FXML
-    private TableColumn<ScoreDocument.StudentResult, String> stdIDcol;
+    private TableView<ScoreDocument.StudentResult> scoreTable = new TableView<ScoreDocument.StudentResult>();;
 
     @FXML
     private TableColumn<ScoreDocument.StudentResult, String> outcomeCol;
-
     @FXML
     private TableColumn<ScoreDocument.StudentResult, Integer> scoreCol;
-
     @FXML
-    private Button saveResultButton;
+    private TableColumn<ScoreDocument.StudentResult, String> stdIDcol;
+    private Compiler compiler;
+    public MainPageController controller;
 
-    @FXML
-    private Button runButton;
-
-    @FXML
-    private TextField configCompText;
-    @FXML
-    private TextField configRunText;
-    @FXML
-
-    @FXML
-    private void initialize() {
-        loadCorrectResult();
-
-
-        scoreTable.setRowFactory(tv -> new TableRow<ScoreDocument.StudentResult>() {
-            @Override
-            protected void updateItem(ScoreDocument.StudentResult item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty) {
-                    setStyle("");
-                } else {
-                    if ("Compile Error".equals(item.getResult())) {
-                        setStyle("-fx-background-color: red;");
-                    } else if ("Runtime Error".equals(item.getResult())) {
-                        setStyle("-fx-background-color: yellow;");
-                    } else if ("Wrong".equals(item.getResult())) {
-                        setStyle("-fx-background-color: yellow;");
-                    } else if ("Correct".equals(item.getResult())) {
-                        setStyle("-fx-background-color: lightgreen;");
-                    }
-                }
-            }
-        });
-
-        readValuesFromFile("src/test/manuelTestFolders/test_IAE/javaCompleteTest/javaCompleteTest.txt");
-
-        // Set context menus
-        setContextMenuForButton(configButton, "Configuration");
-        setContextMenuForButton(projectButton, "Project");
-    }
-
-    private void readValuesFromFile(String filePath) {
+    public void readValuesFromFile(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -102,11 +119,103 @@ public class MainPageController {
         }
     }
 
+    @FXML
+    public void initialize() {
+        loadCorrectResult();
+        addFolderFunc();
+        compiler = new Compiler();
+        runButtonFunc();
+        configSetButton.setOnAction(event -> openConfigSettings());
+        newProjectButton.setOnAction(event -> openNewProject());
+
+        System.out.println("initialize() method called");
+
+        stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
+        outcomeCol.setCellValueFactory(new PropertyValueFactory<>("result"));
+        scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
+        scoreTable.refresh();
+
+        String filePath = "src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/javaCompleteTest.txt";
+        readValuesFromFile(filePath);
+
+        scoreTable.setRowFactory(tv -> new TableRow<ScoreDocument.StudentResult>() {
+            @Override
+            protected void updateItem(ScoreDocument.StudentResult item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setStyle("");
+                } else {
+                    if (item.getScore() == 100) {
+                        setStyle("-fx-background-color: lightgreen;");
+                    } else if (item.getScore() == 0) {
+                        setStyle("-fx-background-color: red;");
+                    } else {
+                        setStyle("-fx-background-color: yellow;");
+                    }
+                }
+            }
+        });
+    }
+
+    @FXML
+    public void openConfigSettings() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("deneme.fxml"));
+            Scene scene = new Scene(loader.load(), 361, 400);
+            this.controller = loader.getController();
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setTitle("Configuration Settings");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    private void openNewProject() {
+        try {
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("new-new-project-page.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 490, 337);
+            stage.setResizable(false);
+            NewProjectController newProjectController = fxmlLoader.getController();
+            //this.controller = fxmlLoader.getController();
+            stage.setTitle("New Project");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void addFolderFunc() {
+        addFolderButton.setOnAction(event -> {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Select Folder");
+
+            Stage stage = (Stage) addFolderButton.getScene().getWindow();
+            File selectedFolder = directoryChooser.showDialog(stage);
+
+            if (selectedFolder != null) {
+                String sourceFolder = selectedFolder.getAbsolutePath();
+                System.out.println("Selected Folder: " + sourceFolder);
+            } else {
+                System.out.println("No Folder Selected");
+            }
+        });
+    }
+
     private void loadCorrectResult() {
-        String filePath = "src/test/manuelTestFolders/test_IAE/javaCompleteTest/correct_result.txt";
+        String filePath = "src/src/test/manuelTestFolders/test_IAE/javaCompleteTest/correct_result.txt";
+
         StringBuilder content = new StringBuilder();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 content.append(line).append("\n");
@@ -118,37 +227,19 @@ public class MainPageController {
     }
 
     @FXML
-    private void goToMainPage(ActionEvent event) {
-        switchScene("/com/example/iae/main-page.fxml");
-    }
+    private void runButtonFunc() {
 
-    @FXML
-    private void goToProjects(ActionEvent event) {
-        switchScene("/com/example/iae/new-project-page.fxml");
-    }
-
-    @FXML
-    private void goToConfiguration(ActionEvent event) {
-        switchScene("/com/example/iae/configuration.fxml");
-    }
-
-    @FXML
-    private void goToSaveResult(ActionEvent event) {
-        switchScene("/com/example/iae/save-result.fxml");
-    }
-
-    @FXML
-    private void runButtonFunc(ActionEvent event) {
         if (configuration == null) {
-            showAlert("Configuration is not set.");
+            System.out.println("!!");
             return;
         }
 
         String compileCommand = configuration.getCompileCommand();
         String runCommand = configuration.getRunCommand();
 
+
         if (compileCommand == null || compileCommand.isEmpty() || runCommand == null || runCommand.isEmpty()) {
-            showAlert("Compile command or Run command fields are not set.");
+            System.out.println("Compile command or Run command fields are not set.");
             return;
         }
 
@@ -169,124 +260,71 @@ public class MainPageController {
             String documentPath = projectFolderPath + "/" + projectName + ".txt";
             readValuesFromFile(documentPath);
 
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @FXML
-    private void addConfiguration(ActionEvent event) {
-        String configName = "config"; // Replace with actual input if needed
-        Configuration newConfig = new Configuration(configName, configCompText.getText(), configRunText.getText(), Integer.parseInt(configTimeText.getText()));
-        newConfig.saveConfiguration();
-        showAlert("Configuration added successfully.");
+    private void fillTable() {
+        stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
+        outcomeCol.setCellValueFactory(new PropertyValueFactory<>("result"));
+        scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
+
+        //scoreTable.refresh(); // Refresh the table view
     }
 
-    @FXML
-    private void editConfiguration(ActionEvent event) {
-        if (configuration != null) {
-            configuration.setCompileCommand(configCompText.getText());
-            configuration.setRunCommand(configRunText.getText());
-            configuration.setTimeLimit(Integer.parseInt(configTimeText.getText()));
-            configuration.saveConfiguration();
-            showAlert("Configuration edited successfully.");
-        } else {
-            showAlert("No configuration selected for editing.");
-        }
-    }
+    //TODO: Project creation
 
     @FXML
-    private void deleteConfiguration(ActionEvent event) {
-        if (configuration != null) {
-            File configFile = new File(FileOperations.CONFIG_FOLDER_PATH + File.separator + configuration.getName() + ".json");
-            if (configFile.delete()) {
-                showAlert("Configuration deleted successfully.");
-                configuration = null;
-                clearConfigFields();
-            } else {
-                showAlert("Failed to delete configuration.");
-            }
-        } else {
-            showAlert("No configuration selected for deletion.");
-        }
+    private void newProjectPage_createProjectButtonAction() {
+        String projectName = newProjectNameText.getText().trim();
+
+        //project folder path
+        String projectFolderPath = projectFoldPathText.getText().trim();
+
+        Project p = new Project(projectName, projectFolderPath); //our project
+
+        String confName = projectConfigPathText.getText(); //conf name
+        Configuration conf = new Configuration(confName); //our configuration
+
+        project = p;
+        configuration = conf;
     }
 
     @FXML
-    private void addProject(ActionEvent event) {
-        // Add your implementation for adding a project
-        showAlert("Project added successfully.");
+    private void searchForConfigurationAction() {
+        Stage stage = new Stage();
+
+        // Call the showFileChooser method from the FileChooserApplication class
+        String selectedFilePath = FileChooserApplication.showFileChooser(stage);
+        //
+
+        // Do something with the selected file path
+        System.out.println("Selected file path from another class: " + selectedFilePath);
+    }
+
+
+
+    @FXML
+    private void NewProjectButtonAction() {
+
     }
 
     @FXML
-    private void editProject(ActionEvent event) {
-        // Add your implementation for editing a project
-        showAlert("Project edited successfully.");
+    private void searchForProjectFolder() {
+        Stage stage = new Stage();
+
+        // Call the showFolderChooser method from the FolderChooserApplication class
+        String projectFolderPath = FolderChooserApplication.showFolderChooser(stage);
+        projectFoldPathText.setText(projectFolderPath);
+
+        // Do something with the selected folder path
+        System.out.println("Selected folder path from another class: " + projectFolderPath);
     }
 
-    @FXML
-    private void deleteProject(ActionEvent event) {
-        // Add your implementation for deleting a project
-        showAlert("Project deleted successfully.");
-    }
 
-    private void setContextMenuForButton(Button button, String type) {
-        ContextMenu contextMenu = new ContextMenu();
 
-        MenuItem addItem = new MenuItem("Add");
-        MenuItem editItem = new MenuItem("Edit");
-        MenuItem deleteItem = new MenuItem("Delete");
 
-        addItem.setOnAction(event -> {
-            if (type.equals("Configuration")) {
-                addConfiguration(event);
-            } else if (type.equals("Project")) {
-                addProject(event);
-            }
-        });
 
-        editItem.setOnAction(event -> {
-            if (type.equals("Configuration")) {
-                editConfiguration(event);
-            } else if (type.equals("Project")) {
-                editProject(event);
-            }
-        });
-
-        deleteItem.setOnAction(event -> {
-            if (type.equals("Configuration")) {
-                deleteConfiguration(event);
-            } else if (type.equals("Project")) {
-                deleteProject(event);
-            }
-        });
-
-        contextMenu.getItems().addAll(addItem, editItem, deleteItem);
-
-        button.setOnAction(event -> contextMenu.show(button, Side.BOTTOM, 0, 0));
-    }
-
-    private void clearConfigFields() {
-        configCompText.clear();
-        configRunText.clear();
-        configTimeText.clear();
-    }
-
-    private void switchScene(String fxmlFilePath) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFilePath));
-            Parent root = loader.load();
-            Stage stage = (Stage) mainPageButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Failed to load the page: " + fxmlFilePath);
-        }
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 }
