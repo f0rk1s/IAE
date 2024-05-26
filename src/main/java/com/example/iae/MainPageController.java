@@ -14,8 +14,6 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
-import static com.example.iae.Main.completeJavaTest;
-
 public class MainPageController {
 
     private Project project;
@@ -93,7 +91,7 @@ public class MainPageController {
     private TextField runCmdText;
 
     @FXML
-    private TableView<ScoreDocument.StudentResult> scoreTable = new TableView<ScoreDocument.StudentResult>();;
+    private TableView<ScoreDocument.StudentResult> scoreTable = new TableView<ScoreDocument.StudentResult>();
 
     @FXML
     private TableColumn<ScoreDocument.StudentResult, String> outcomeCol;
@@ -174,6 +172,56 @@ public class MainPageController {
         }
     }
 
+    @FXML
+    private void saveConfiguration() {
+        String name = "configuration";  // You might want to get this from another TextField or a prompt
+        String compileCommand = configCompText.getText();
+        String runCommand = configRunText.getText();
+        int timeLimit = Integer.parseInt(configTimeText.getText());
+
+        Configuration config = new Configuration(name, compileCommand, runCommand, timeLimit);
+        config.saveConfiguration();
+    }
+
+    @FXML
+    private void editConfiguration() {
+        String name = "configuration";  // You might want to get this from another TextField or a prompt
+        Configuration config = new Configuration(name);
+        
+        config.setCompileCommand(configCompText.getText());
+        config.setRunCommand(configRunText.getText());
+        config.setTimeLimit(Integer.parseInt(configTimeText.getText()));
+        
+        config.saveConfiguration();
+    }
+
+    @FXML
+    private void deleteConfiguration() {
+        String name = "configuration";  // You might want to get this from another TextField or a prompt
+        String filePath = FileOperations.CONFIG_FOLDER_PATH + File.separator + name + ".json";
+        File file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
+        } else {
+            System.out.println("Configuration file not found.");
+        }
+    }
+
+    @FXML
+    private void loadConfiguration() {
+        String name = "configuration";  // You might want to get this from another TextField or a prompt
+        Configuration config = new Configuration(name);
+        configCompText.setText(config.getCompileCommand());
+        configRunText.setText(config.getRunCommand());
+        configTimeText.setText(String.valueOf(config.getTimeLimit()));
+    }
+
+    @FXML
+    private void newConfiguration() {
+        configCompText.clear();
+        configRunText.clear();
+        configTimeText.clear();
+    }
 
     @FXML
     private void openNewProject() {
@@ -304,8 +352,6 @@ public class MainPageController {
         System.out.println("Selected file path from another class: " + selectedFilePath);
     }
 
-
-
     @FXML
     private void NewProjectButtonAction() {
 
@@ -322,9 +368,4 @@ public class MainPageController {
         // Do something with the selected folder path
         System.out.println("Selected folder path from another class: " + projectFolderPath);
     }
-
-
-
-
-
 }
