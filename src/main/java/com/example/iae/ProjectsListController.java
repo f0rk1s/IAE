@@ -99,14 +99,14 @@ public class ProjectsListController {
 
 
     private int calculateScore(String outcome) {
-        if (outcome.contains("correct")) {
-            return 100;
-        } else if (outcome.contains("runtime error")) {
+        if (outcome.contains("Wrong")) {
+            return 0;
+        } else if (outcome.contains("RUNTIME ERROR!")) {
             return 10;
-        } else if (outcome.contains("compile error")) {
+        } else if (outcome.contains("COMPILE ERROR!")) {
             return 0;
         } else {
-            return 25;
+            return 100;
         }
     }
 
