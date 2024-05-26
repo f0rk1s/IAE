@@ -366,4 +366,49 @@ public class MainPageController {
         // Do something with the selected folder path
         System.out.println("Selected folder path from another class: " + projectFolderPath);
     }
+   
+
+    @FXML
+    private void saveFilesToDesktop() {
+        try {
+            String desktopPath = System.getProperty("user.home") + "/Desktop/";
+            
+            // Save MainPageController.java
+            String javaContent = // (The complete Java code as a string);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(desktopPath + "MainPageController.java"));
+            writer.write(javaContent);
+            writer.close();
+
+            // Save the FXML content
+            String fxmlContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                                + "<?import javafx.scene.control.Button?>\n"
+                                + "<?import javafx.scene.control.Label?>\n"
+                                + "<?import javafx.scene.control.TextField?>\n"
+                                + "<?import javafx.scene.layout.AnchorPane?>\n"
+                                + "\n"
+                                + "<AnchorPane maxHeight=\"-Infinity\" maxWidth=\"-Infinity\" minHeight=\"-Infinity\" minWidth=\"-Infinity\" prefHeight=\"400.0\" prefWidth=\"393.0\" xmlns=\"http://javafx.com/javafx/21\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"com.example.iae.MainPageController\">\n"
+                                + "   <children>\n"
+                                + "      <TextField id=\"ConfigRunText\" fx:id=\"configRunText\" layoutX=\"68.0\" layoutY=\"222.0\" prefHeight=\"26.0\" prefWidth=\"246.0\" />\n"
+                                + "      <TextField id=\"ConfigTimeText\" fx:id=\"configTimeText\" layoutX=\"69.0\" layoutY=\"286.0\" prefHeight=\"26.0\" prefWidth=\"246.0\" />\n"
+                                + "      <TextField id=\"configCompText\" fx:id=\"configCompText\" layoutX=\"68.0\" layoutY=\"160.0\" prefHeight=\"26.0\" prefWidth=\"245.0\" />\n"
+                                + "      <Label layoutX=\"138.0\" layoutY=\"133.0\" text=\"Compile Command\" />\n"
+                                + "      <Label layoutX=\"150.0\" layoutY=\"198.0\" text=\"Run Command\" />\n"
+                                + "      <Label layoutX=\"152.0\" layoutY=\"261.0\" text=\"Compile Time\" />\n"
+                                + "      <Button id=\"ConfigSaveButton\" fx:id=\"configSaveButton\" layoutX=\"265.0\" layoutY=\"348.0\" mnemonicParsing=\"false\" prefHeight=\"34.0\" prefWidth=\"79.0\" text=\"Save\" onAction=\"#saveConfiguration\" />\n"
+                                + "      <Button id=\"ConfigSaveButton\" fx:id=\"editConfigButton\" layoutX=\"46.0\" layoutY=\"48.0\" mnemonicParsing=\"false\" prefHeight=\"26.0\" prefWidth=\"133.0\" text=\"Edit Configuration\" onAction=\"#editConfiguration\" />\n"
+                                + "      <Button id=\"ConfigSaveButton\" fx:id=\"delConfigButton\" layoutX=\"46.0\" layoutY=\"82.0\" mnemonicParsing=\"false\" prefHeight=\"26.0\" prefWidth=\"134.0\" text=\"Delete Configuration\" onAction=\"#deleteConfiguration\" />\n"
+                                + "      <Button fx:id=\"loadConfigButton\" layoutX=\"200.0\" layoutY=\"48.0\" mnemonicParsing=\"false\" prefHeight=\"26.0\" prefWidth=\"134.0\" text=\"Load Configuration\" onAction=\"#loadConfiguration\" />\n"
+                                + "      <Button id=\"ConfigSaveButton\" fx:id=\"newConfigButton\" layoutX=\"200.0\" layoutY=\"82.0\" mnemonicParsing=\"false\" prefHeight=\"26.0\" prefWidth=\"134.0\" text=\"New Configuration\" onAction=\"#newConfiguration\" />\n"
+                                + "   </children>\n"
+                                + "</AnchorPane>";
+            BufferedWriter writer2 = new BufferedWriter(new FileWriter(desktopPath + "configurations.fxml"));
+            writer2.write(fxmlContent);
+            writer2.close();
+
+            System.out.println("Files have been saved to the desktop.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
