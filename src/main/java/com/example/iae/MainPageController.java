@@ -2,6 +2,7 @@ package com.example.iae;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -126,8 +127,9 @@ public class MainPageController {
         addFolderFunc();
         compiler = new Compiler();
         runButtonFunc();
-        configSetButton.setOnAction(event -> openConfigSettings());
+        newConfigButton.setOnAction(event -> openNewConfiguration());
         newProjectButton.setOnAction(event -> openNewProject());
+        editConfigButton.setOnAction(event -> openEditConfiguration());
 
         System.out.println("initialize() method called");
 
@@ -159,15 +161,15 @@ public class MainPageController {
     }
 
     @FXML
-    public void openConfigSettings() {
+    public void openNewConfiguration() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("deneme.fxml"));
-            Scene scene = new Scene(loader.load(), 361, 400);
-            this.controller = loader.getController();
+            Scene scene = new Scene(loader.load(), 400, 400);
+            NewConfigPageController controller = loader.getController(); // Change to NewConfigPageController
             Stage stage = new Stage();
             stage.setResizable(false);
-            stage.setTitle("Configuration Settings");
+            stage.setTitle("New Configuration");
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -175,27 +177,22 @@ public class MainPageController {
         }
     }
 
-    @FXML
-    private void saveConfiguration() {
-        String name = "configuration";  // You might want to get this from another TextField or a prompt
-        String compileCommand = configCompText.getText();
-        String runCommand = configRunText.getText();
-        int timeLimit = Integer.parseInt(configTimeText.getText());
 
-        Configuration config = new Configuration(name, compileCommand, runCommand, timeLimit);
-        config.saveConfiguration();
-    }
 
-    @FXML
-    private void editConfiguration() {
-        String name = "configuration";  // You might want to get this from another TextField or a prompt
-        Configuration config = new Configuration(name);
-
-        config.setCompileCommand(configCompText.getText());
-        config.setRunCommand(configRunText.getText());
-        config.setTimeLimit(Integer.parseInt(configTimeText.getText()));
-
-        config.saveConfiguration();
+    public void openEditConfiguration() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("edit-config-page.fxml"));
+            Scene scene = new Scene(loader.load(), 400, 400);
+            this.controller = loader.getController();
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setTitle("Edit Configuration");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -219,12 +216,6 @@ public class MainPageController {
         configTimeText.setText(String.valueOf(config.getTimeLimit()));
     }
 
-    @FXML
-    private void newConfiguration() {
-        configCompText.clear();
-        configRunText.clear();
-        configTimeText.clear();
-    }
 
     @FXML
     public void showProjectsList() {
@@ -301,15 +292,14 @@ public class MainPageController {
 
     @FXML
     private void runButtonFunc() {
-
         if (configuration == null) {
-            System.out.println("!!");
+            System.out.println("Configuration not set");
             return;
         }
 
         String compileCommand = configuration.getCompileCommand();
         String runCommand = configuration.getRunCommand();
-
+        int timeLimit = configuration.getTimeLimit();
 
         if (compileCommand == null || compileCommand.isEmpty() || runCommand == null || runCommand.isEmpty()) {
             System.out.println("Compile command or Run command fields are not set.");
@@ -317,27 +307,40 @@ public class MainPageController {
         }
 
         try {
-            Compiler compiler = new Compiler();
-            compiler.runForAllStudentFiles(project, configuration);
+            // Compile the code
+            Process compileProcess = Runtime.getRuntime().exec(compileCommand);
+            compileProcess.waitFor(timeLimit, java.util.concurrent.TimeUnit.SECONDS);
 
-            String projectFolderPath = project.getFolderPath();
-            ScoreDocument scoreDocument = new ScoreDocument();
-            scoreDocument.fillList(projectFolderPath);
+            if (compileProcess.exitValue() != 0) {
+                System.out.println("Compilation failed.");
+                return;
+            }
 
-            FileOperations fileOperations = new FileOperations();
-            fileOperations.createReportFile(scoreDocument, projectFolderPath);
+            // Run the code
+            Process runProcess = Runtime.getRuntime().exec(runCommand);
+            BufferedReader input = new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
+            String line;
+            StringBuilder output = new StringBuilder();
 
-            scoreTable.refresh();
-            File projectFolder = new File(projectFolderPath);
-            String projectName = projectFolder.getName();
-            String documentPath = projectFolderPath + "/" + projectName + ".txt";
-            readValuesFromFile(documentPath);
+            while ((line = input.readLine()) != null) {
+                output.append(line).append("\n");
+            }
 
+            runProcess.waitFor(timeLimit, java.util.concurrent.TimeUnit.SECONDS);
 
-        } catch (IOException e) {
+            if (runProcess.exitValue() != 0) {
+                System.out.println("Execution failed.");
+                return;
+            }
+
+            // Display output in the correctResultArea or other UI elements
+            correctResultArea.setText(output.toString());
+
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
+
 
     private void fillTable() {
         stdIDcol.setCellValueFactory(new PropertyValueFactory<>("studentId"));
@@ -434,6 +437,7 @@ public class MainPageController {
 
         alert.showAndWait();
     }
+
 }
 
 
