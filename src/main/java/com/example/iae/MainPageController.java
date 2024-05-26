@@ -67,7 +67,6 @@ public class MainPageController {
     @FXML
     private Button newConfigButton;
 
-
     @FXML
     private Button addFolderButton;
     @FXML
@@ -91,7 +90,7 @@ public class MainPageController {
     private TextField runCmdText;
 
     @FXML
-    private TableView<ScoreDocument.StudentResult> scoreTable = new TableView<ScoreDocument.StudentResult>();
+    private TableView<ScoreDocument.StudentResult> scoreTable = new TableView<>();
 
     @FXML
     private TableColumn<ScoreDocument.StudentResult, String> outcomeCol;
@@ -231,7 +230,6 @@ public class MainPageController {
             Scene scene = new Scene(fxmlLoader.load(), 490, 337);
             stage.setResizable(false);
             NewProjectController newProjectController = fxmlLoader.getController();
-            //this.controller = fxmlLoader.getController();
             stage.setTitle("New Project");
             stage.setScene(scene);
             stage.show();
