@@ -8,7 +8,6 @@ public class Compiler {
 
     public void runForAllStudentFiles(Project project, Configuration configuration) throws IOException {
 
-        //get student folder as a list
         String projectPath = project.getFolderPath();
         File projectFolder = new File(projectPath);
         File[] studentFiles = projectFolder.listFiles();
