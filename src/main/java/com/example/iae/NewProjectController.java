@@ -89,6 +89,9 @@ public class NewProjectController {
                         Files.copy(sourceFilePath, destFilePath, StandardCopyOption.REPLACE_EXISTING);
                     }
 
+                    // Optionally, copy the folder recursively
+                    copyFolderContents(selectedFolder, projectFolder);
+
                     // Optionally, close the new project window after creation
                     Stage stage = (Stage) createProjectButton.getScene().getWindow();
                     stage.close();
@@ -104,8 +107,24 @@ public class NewProjectController {
     }
 
 
-    public static void copyFile(Path source, Path destination) throws IOException {
-        Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+
+    private static void copyFolderContents(File sourceFolder, File destinationFolder) throws IOException {
+        if (sourceFolder.isDirectory()) {
+            if (!destinationFolder.exists()) {
+                destinationFolder.mkdirs();
+            }
+
+            String[] files = sourceFolder.list();
+            for (String file : files) {
+                File srcFile = new File(sourceFolder, file);
+                File destFile = new File(destinationFolder, file);
+
+                // Recursive copy
+                copyFolderContents(srcFile, destFile);
+            }
+        } else {
+            Files.copy(sourceFolder.toPath(), destinationFolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
     }
 
     private void deleteFolder(File folder) {

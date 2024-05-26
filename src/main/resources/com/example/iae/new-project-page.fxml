@@ -11,7 +11,7 @@
       <TextField fx:id="newProjectNameText" layoutX="188.0" layoutY="44.0" prefHeight="26.0" prefWidth="186.0" />
       <Button fx:id="searchProjectFolder" layoutX="51.0" layoutY="108.0" mnemonicParsing="false" onAction="#searchForProjectFolder" prefHeight="26.0" prefWidth="157.0" text="Search for a project folder" />
       <TextField fx:id="projectFoldPathText" editable="false" layoutX="230.0" layoutY="108.0" prefHeight="26.0" prefWidth="186.0" />
-      <Button layoutX="51.0" layoutY="166.0" mnemonicParsing="false" onAction="#s" prefHeight="26.0" prefWidth="157.0" text="Search for a configuration" />
+      <Button layoutX="51.0" layoutY="166.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="157.0" text="Search for a configuration" />
       <Label layoutX="74.0" layoutY="192.0" text="or" />
       <Button layoutX="51.0" layoutY="210.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="157.0" text="Add a configuration" />
       <TextField fx:id="projectConfigPathText" editable="false" layoutX="230.0" layoutY="187.0" prefHeight="26.0" prefWidth="186.0" />

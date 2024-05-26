@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.net.URL;
 
 public class MainPageController {
 
@@ -67,6 +68,8 @@ public class MainPageController {
     @FXML
     private Button newConfigButton;
 
+    @FXML
+    private Button projectsListButton;
 
     @FXML
     private Button addFolderButton;
@@ -187,11 +190,11 @@ public class MainPageController {
     private void editConfiguration() {
         String name = "configuration";  // You might want to get this from another TextField or a prompt
         Configuration config = new Configuration(name);
-        
+
         config.setCompileCommand(configCompText.getText());
         config.setRunCommand(configRunText.getText());
         config.setTimeLimit(Integer.parseInt(configTimeText.getText()));
-        
+
         config.saveConfiguration();
     }
 
@@ -221,6 +224,28 @@ public class MainPageController {
         configCompText.clear();
         configRunText.clear();
         configTimeText.clear();
+    }
+
+    @FXML
+    public void showProjectsList() {
+        try {
+            URL fxmlLocation = getClass().getResource("projects-list.fxml");
+            if (fxmlLocation == null) {
+                throw new IllegalStateException("Cannot find FXML file: projects-list.fxml");
+            }
+            FXMLLoader loader = new FXMLLoader(fxmlLocation);
+            Scene scene = new Scene(loader.load(), 831, 590);
+            ProjectsListController controller = loader.getController();
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setTitle("Projects");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -410,6 +435,5 @@ public class MainPageController {
         alert.showAndWait();
     }
 }
-
 
 
