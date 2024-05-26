@@ -91,7 +91,7 @@ public class Configuration {
                 '}';
     }
 
-    public static void main(String[] args) { //conf class works
+    public static void main(String[] args) { //configuration class works
         Configuration c = new Configuration("conf3", "javac FactorialCalculator.java", "java FactorialCalculator 5", 2);
         c.saveConfiguration();
         Configuration c3 = new Configuration("conf3");
