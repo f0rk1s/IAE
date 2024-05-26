@@ -67,6 +67,7 @@ public class MainPageController {
     @FXML
     private Button newConfigButton;
 
+
     @FXML
     private Button addFolderButton;
     @FXML
@@ -90,7 +91,7 @@ public class MainPageController {
     private TextField runCmdText;
 
     @FXML
-    private TableView<ScoreDocument.StudentResult> scoreTable = new TableView<>();
+    private TableView<ScoreDocument.StudentResult> scoreTable = new TableView<ScoreDocument.StudentResult>();
 
     @FXML
     private TableColumn<ScoreDocument.StudentResult, String> outcomeCol;
@@ -230,6 +231,7 @@ public class MainPageController {
             Scene scene = new Scene(fxmlLoader.load(), 490, 337);
             stage.setResizable(false);
             NewProjectController newProjectController = fxmlLoader.getController();
+            //this.controller = fxmlLoader.getController();
             stage.setTitle("New Project");
             stage.setScene(scene);
             stage.show();
@@ -368,46 +370,46 @@ public class MainPageController {
     }
 
     @FXML
-    private void saveFilesToDesktop() {
-        try {
-            String desktopPath = System.getProperty("user.home") + "/Desktop/";
-            
-            // Save MainPageController.java
-            String javaContent = // (The complete Java code as a string);
-            BufferedWriter writer = new BufferedWriter(new FileWriter(desktopPath + "MainPageController.java"));
-            writer.write(javaContent);
-            writer.close();
+    private void handleHelp() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+        alert.setHeaderText("How to Use the Application");
 
-            // Save the FXML content
-            String fxmlContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                                + "<?import javafx.scene.control.Button?>\n"
-                                + "<?import javafx.scene.control.Label?>\n"
-                                + "<?import javafx.scene.control.TextField?>\n"
-                                + "<?import javafx.scene.layout.AnchorPane?>\n"
-                                + "\n"
-                                + "<AnchorPane maxHeight=\"-Infinity\" maxWidth=\"-Infinity\" minHeight=\"-Infinity\" minWidth=\"-Infinity\" prefHeight=\"400.0\" prefWidth=\"393.0\" xmlns=\"http://javafx.com/javafx/21\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"com.example.iae.MainPageController\">\n"
-                                + "   <children>\n"
-                                + "      <TextField id=\"ConfigRunText\" fx:id=\"configRunText\" layoutX=\"68.0\" layoutY=\"222.0\" prefHeight=\"26.0\" prefWidth=\"246.0\" />\n"
-                                + "      <TextField id=\"ConfigTimeText\" fx:id=\"configTimeText\" layoutX=\"69.0\" layoutY=\"286.0\" prefHeight=\"26.0\" prefWidth=\"246.0\" />\n"
-                                + "      <TextField id=\"configCompText\" fx:id=\"configCompText\" layoutX=\"68.0\" layoutY=\"160.0\" prefHeight=\"26.0\" prefWidth=\"245.0\" />\n"
-                                + "      <Label layoutX=\"138.0\" layoutY=\"133.0\" text=\"Compile Command\" />\n"
-                                + "      <Label layoutX=\"150.0\" layoutY=\"198.0\" text=\"Run Command\" />\n"
-                                + "      <Label layoutX=\"152.0\" layoutY=\"261.0\" text=\"Compile Time\" />\n"
-                                + "      <Button id=\"ConfigSaveButton\" fx:id=\"configSaveButton\" layoutX=\"265.0\" layoutY=\"348.0\" mnemonicParsing=\"false\" prefHeight=\"34.0\" prefWidth=\"79.0\" text=\"Save\" onAction=\"#saveConfiguration\" />\n"
-                                + "      <Button id=\"ConfigSaveButton\" fx:id=\"editConfigButton\" layoutX=\"46.0\" layoutY=\"48.0\" mnemonicParsing=\"false\" prefHeight=\"26.0\" prefWidth=\"133.0\" text=\"Edit Configuration\" onAction=\"#editConfiguration\" />\n"
-                                + "      <Button id=\"ConfigSaveButton\" fx:id=\"delConfigButton\" layoutX=\"46.0\" layoutY=\"82.0\" mnemonicParsing=\"false\" prefHeight=\"26.0\" prefWidth=\"134.0\" text=\"Delete Configuration\" onAction=\"#deleteConfiguration\" />\n"
-                                + "      <Button fx:id=\"loadConfigButton\" layoutX=\"200.0\" layoutY=\"48.0\" mnemonicParsing=\"false\" prefHeight=\"26.0\" prefWidth=\"134.0\" text=\"Load Configuration\" onAction=\"#loadConfiguration\" />\n"
-                                + "      <Button id=\"ConfigSaveButton\" fx:id=\"newConfigButton\" layoutX=\"200.0\" layoutY=\"82.0\" mnemonicParsing=\"false\" prefHeight=\"26.0\" prefWidth=\"134.0\" text=\"New Configuration\" onAction=\"#newConfiguration\" />\n"
-                                + "   </children>\n"
-                                + "</AnchorPane>";
-            BufferedWriter writer2 = new BufferedWriter(new FileWriter(desktopPath + "configurations.fxml"));
-            writer2.write(fxmlContent);
-            writer2.close();
+        TextArea textArea = new TextArea();
+        textArea.setText("Here is a detailed list of buttons and their functions:\n\n" +
+                "1. **Add Folder**: Opens a directory chooser dialog to add a new folder to the project.\n" +
+                "2. **New Project**: Opens a dialog to create a new project. You will be prompted to enter the project name, folder path, and configuration.\n" +
+                "3. **Only Run**: Select this option to run the project without compiling the source code.\n" +
+                "4. **Compile and Run**: Select this option to compile and run the project.\n" +
+                "5. **Run**: Executes the current project based on the selected configuration settings.\n" +
+                "6. **Configuration Settings**: Opens the configuration settings dialog where you can define compile and run commands as well as the compile time limit.\n" +
+                "    - **Compile Command**: Specifies the command used to compile the source code.\n" +
+                "    - **Run Command**: Specifies the command used to run the compiled code.\n" +
+                "    - **Compile Time**: Sets the maximum time allowed for the compilation process.\n" +
+                "    - **Save**: Saves the current configuration settings.\n" +
+                "    - **Edit Configuration**: Opens a previously saved configuration for editing.\n" +
+                "    - **Delete Configuration**: Deletes a previously saved configuration.\n" +
+                "    - **Load Configuration**: Loads a previously saved configuration.\n" +
+                "    - **New Configuration**: Clears all fields to create a new configuration.\n" +
+                "7. **Save Result**: Saves the current results to a file.\n" +
+                "8. **Help**: Displays this help dialog.\n"
 
-            System.out.println("Files have been saved to the desktop.");
+        );
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        textArea.setWrapText(true);
+        textArea.setEditable(false);
+
+        ScrollPane scrollPane = new ScrollPane(textArea);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+
+        scrollPane.setPrefSize(600, 400);
+
+        alert.getDialogPane().setContent(scrollPane);
+
+        alert.showAndWait();
     }
 }
+
+
+
